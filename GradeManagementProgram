@@ -1,0 +1,58 @@
+def input_scores():
+    students = []
+    for i in range(5):
+        print(f"학생 {i+1}의 정보를 입력하세요:")
+        student_id = input("학번: ")
+        name = input("이름: ")
+        english_score = int(input("영어 점수: "))
+        c_score = int(input("C-언어 점수: "))
+        python_score = int(input("파이썬 점수: "))
+        students.append((student_id, name, english_score, c_score, python_score))
+    return students
+
+def calculate_total_average(scores):
+    total_scores = []
+    for student in scores:
+        total_score = sum(student[2:])
+        average_score = total_score / 3
+        total_scores.append((student[0], student[1], student[2:], total_score, average_score))
+    return total_scores
+
+def calculate_grade(score):
+    if score >= 90:
+        return 'A'
+    elif score >= 80:
+        return 'B'
+    elif score >= 70:
+        return 'C'
+    elif score >= 60:
+        return 'D'
+    else :
+        return 'F'
+
+def calculate_rank(scores):
+    ranked_scores = sorted(scores, key=lambda x: x[3], reverse=True)
+    for i, student in enumerate(ranked_scores):
+        student_rank = i + 1
+        ranked_scores[i] = student + (student_rank,)
+    return ranked_scores
+       
+       
+       
+def print_scores(scores):
+    print("\t\t 성적관리 프로그램\n")
+    print("=====================================================\n")
+    print("\t학번\t\t\t\t이름\t\t영어\t\tC-언어\t파이썬\t총점\t\t평균\t\t학점\t\t등수\n")
+    print("=====================================================\n")
+    for student in scores:
+        print(f"\t{student[0]}\t\t{student[1]}\t{student[2][0]}\t\t{student[2][1]}\t\t{student[2][2]}\t\t{student[3]}\t\t{student[4]:.2f}\t\t{calculate_grade(student[4])}\t\t{student[5]}")
+    
+def main():
+    print("성적관리 프로그램\n")
+    students = input_scores()
+    total_average_scores = calculate_total_average(students)
+    ranked_scores = calculate_rank(total_average_scores)
+    print_scores(ranked_scores)
+
+if __name__ == "__main__":
+    main()
